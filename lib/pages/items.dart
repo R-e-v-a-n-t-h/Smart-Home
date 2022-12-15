@@ -22,7 +22,7 @@ class _ItemsState extends State<Items> {
             padding:EdgeInsets.fromLTRB(20, 30, 20, 10),
             child:ElevatedButton(
               onPressed: (){
-                Navigator.pushNamed(context, '/products/${item}',arguments:RoomToItems(items[item]));
+                Navigator.pushNamed(context, '/products/${item.toLowerCase()}',arguments:RoomToItems(items[item]));
               },
               child: Text(item,style: TextStyle(fontSize: 24,color: Color(0xFF2D3748))),
               style: ElevatedButton.styleFrom(
