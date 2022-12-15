@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'pages/home.dart';
+import 'pages/rooms.dart';
+import 'pages/items.dart';
 void main() {
   runApp(const App());
 }
@@ -12,34 +14,23 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      home: Home()
+      initialRoute: '/home',
+      routes:{
+        '/home': (context)=>Home(),
+        '/rooms': (context)=>Rooms(),
+        '/items':(context)=>Items(),
+        '/product/ac': (context)=>Items(),
+        '/product/charger': (context)=>Items(),
+        '/product/coffeemachine': (context)=>Items(),
+        '/product/kettle': (context)=>Items(),
+        '/product/lamp': (context)=>Items(),
+        '/product/vacuumcleaner': (context)=>Items(),
+        '/product/washingmachine': (context)=>Items(),
+        '/product/waterheater': (context)=>Items(),
+
+
+      }
     );
   }
 }
 
-class Home extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor:Color(0xFFEBF8FF),
-
-
-        appBar: AppBar(
-            actions: <Widget>[
-          CircleAvatar(
-            backgroundImage: AssetImage("assets/avatar.png"),
-            ),
-
-        ],
-        centerTitle: false,
-        backgroundColor: Color(0xFF2A4365)
-      ),
-
-
-      body: Center(
-        child: Text("Hello there")
-      )
-    );
-  }
-}
