@@ -10,6 +10,7 @@ import 'pages/products/lamp.dart';
 import 'pages/products/vacuumcleaner.dart';
 import 'pages/products/washingmachine.dart';
 import 'pages/products/waterheater.dart';
+import 'pages/loading.dart';
 
 
 void main() {
@@ -24,8 +25,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      initialRoute: '/home',
+      initialRoute: '/',
       routes:{
+        '/': (context)=>Loading(),
         '/home': (context)=>Home(),
         '/rooms': (context)=>Rooms(),
         '/items':(context)=>Items(),

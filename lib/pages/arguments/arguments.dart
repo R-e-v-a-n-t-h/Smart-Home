@@ -1,3 +1,8 @@
+class LoadingToHomes{
+  final Map homes;
+  LoadingToHomes(this.homes);
+}
+
 class HomeToRooms {
   final Map rooms;
   HomeToRooms(this.rooms);
