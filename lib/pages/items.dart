@@ -1,12 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import "arguments/arguments.dart";
+import 'package:http/http.dart';
+import 'dart:convert';
+
 class Items extends StatefulWidget {
 
 
   @override
   State<Items> createState() => _ItemsState();
 }
+
+
 
 class _ItemsState extends State<Items> {
   @override
@@ -21,8 +26,8 @@ class _ItemsState extends State<Items> {
         itemButtons.add(Container(
             padding:EdgeInsets.fromLTRB(20, 30, 20, 10),
             child:ElevatedButton(
-              onPressed: (){
-                Navigator.pushNamed(context, '/products/${item.toLowerCase()}',arguments:RoomToItems(items[item]));
+              onPressed: ()async{
+                Navigator.pushNamed(context, '/product',arguments:ItemToProductLoading(items[item][0]));
               },
               child: Text(item,style: TextStyle(fontSize: 24,color: Color(0xFF2D3748))),
               style: ElevatedButton.styleFrom(

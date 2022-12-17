@@ -15,7 +15,15 @@ class RoomToItems{
 }
 
 
-class ItemToItsPage{
+class ItemToProductLoading{
   final String Id;
-  ItemToItsPage(this.Id);
+  ItemToProductLoading(this.Id);
+}
+
+class ProductLoadingToProduct{
+  Map details;
+  DateTime OnTime;
+  DateTime OffTime;
+  int secondsDifference;
+  ProductLoadingToProduct(this.details,this.OnTime,this.OffTime,this.secondsDifference);
 }

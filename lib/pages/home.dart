@@ -11,7 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  Map hash={};/*{
+  Map homes={};/*{
     "Home1": {
       "Hall": {"Ac": ["Ac000001"], "Charger": ["Ch000001"], "VacuumCleaner": ["Vc000001"]},
       "Kitchen": {"Kettle": ["Kt000001"], "Microwave": ["Mw000001"], "CoffeeMachine": ["Cm000001"]},
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as LoadingToHomes;
-    hash=args.homes;
+    homes=args.homes;
 
     List<Widget> getHomeButtons(Map homes){
       List<Widget> homeButtons = <Widget>[];
@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
 
         body:SafeArea(
           child:Column(
-            children:getHomeButtons(hash)
+            children:getHomeButtons(homes)
 
           )
         )

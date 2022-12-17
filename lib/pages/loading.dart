@@ -12,12 +12,12 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  Map hash={};
+  Map homes={};
   void getData() async{
     Response response = await get(Uri.parse('http://10.0.2.2:8000/get-home'));
-    hash=jsonDecode(response.body);
+    homes=jsonDecode(response.body);
     await Future.delayed(const Duration(seconds: 4));
-    Navigator.pushReplacementNamed(context, '/home',arguments:LoadingToHomes(hash));
+    Navigator.pushReplacementNamed(context, '/home',arguments:LoadingToHomes(homes));
   }
 
   @override

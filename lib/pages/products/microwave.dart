@@ -5,14 +5,14 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 
-class Lamp extends StatefulWidget {
-  const Lamp({Key? key}) : super(key: key);
+class MicroWave extends StatefulWidget {
+  const MicroWave({Key? key}) : super(key: key);
 
   @override
-  State<Lamp> createState() => _LampState();
+  State<MicroWave> createState() => _MicroWaveState();
 }
 
-class _LampState extends State<Lamp> {
+class _MicroWaveState extends State<MicroWave> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute
@@ -25,6 +25,7 @@ class _LampState extends State<Lamp> {
         TimerStatus = args.details["TimerStatus"];
     String OnTimer = args.details["OnTimer"],
         OffTimer = args.details["OffTimer"];
+    int secondsDifference = args.secondsDifference;
 
 
     DateTime OnTime = args.OnTime;
@@ -156,11 +157,15 @@ class _LampState extends State<Lamp> {
                                           onDateTimeChanged: (
                                               DateTime newTime) {
                                             setState(() {
-                                              OnTime=newTime;
-                                              args.OnTime=OnTime;
-                                              OnTimer="${OnTime.hour.toString().padLeft(2,"0")}:${OnTime.minute.toString().padLeft(2,"0")}:00";
-                                              details["OnTimer"]=OnTimer;
-                                              args.details=details;
+                                              OnTime = newTime;
+                                              args.OnTime = OnTime;
+                                              OffTime = newTime.add(Duration(seconds: secondsDifference));
+                                              args.OffTime=OffTime;
+                                              OnTimer ="${OnTime.hour.toString().padLeft(2, "0")}:${OnTime.minute.toString().padLeft(2, "0")}:00";
+                                              OffTimer = "${OffTime.hour.toString().padLeft(2, "0")}:${OffTime.minute.toString().padLeft(2, "0")}:${OffTime.second.toString().padLeft(2, "0")}";
+                                              details["OnTimer"] = OnTimer;
+                                              details["OffTimer"] = OffTimer;
+                                              args.details = details;
                                               put(Uri.parse(updateURL),
                                                   body: jsonEncode(details),
                                                   headers: {
@@ -191,64 +196,70 @@ class _LampState extends State<Lamp> {
                   SizedBox(height: 20),
                   //----------------------------------------------------------------
                   Row(children: <Widget>[
-                    Expanded(child: Text("Off Time", style: TextStyle(
+                    Expanded(child: Text("Off After", style: TextStyle(
                         color: Color(setColors()),
                         fontSize: 20,
                         fontWeight: FontWeight.bold)))
                   ]),
 
-                  Row(children: <Widget>[
+                  Row(
+                      mainAxisAlignment:MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children:<Widget>[
 
-                    Expanded(child: Text(OffTimer.substring(0, 5),
-                        style: TextStyle(
-                            color: Color(setColors()), fontSize: 50))),
+                        ElevatedButton(
+                          onPressed:TimerStatus?(){
+                            if(secondsDifference>10) {
+                              setState(() {
+                                secondsDifference=secondsDifference-10;
+                                args.secondsDifference=secondsDifference;
+                                OffTime=OnTime.add(Duration(seconds:secondsDifference));
+                                args.OffTime=OffTime;
+                                OffTimer = "${OffTime.hour.toString().padLeft(2, "0")}:${OffTime.minute.toString().padLeft(2, "0")}:${OffTime.second.toString().padLeft(2, "0")}";
+                                details["OffTimer"]=OffTimer;
+                                args.details=details;
+                                put(Uri.parse(updateURL),body:jsonEncode(details),headers: { "Content-Type" : "application/json"});
+                              });
+                            }
+                          }:null,
 
-                    Expanded(
-                        child: ElevatedButton(
-                          onPressed: TimerStatus ? () {
-                            showCupertinoModalPopup(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    SizedBox(
-                                      height: 180,
-                                      child: CupertinoDatePicker(
-                                          backgroundColor: Colors.white,
-                                          initialDateTime: OffTime,
-                                          onDateTimeChanged: (
-                                              DateTime newTime) {
-                                            setState(() {
-                                              OffTime=newTime;
-                                              args.OffTime=OffTime;
-                                              OffTimer="${OffTime.hour.toString().padLeft(2,"0")}:${OffTime.minute.toString().padLeft(2,"0")}:00";
-                                              details["OffTimer"]=OffTimer;
-                                              args.details=details;
-                                              put(Uri.parse(updateURL),
-                                                  body: jsonEncode(details),
-                                                  headers: {
-                                                    "Content-Type": "application/json"
-                                                  });
-                                            });
-                                          },
-                                          use24hFormat: true,
-                                          mode: CupertinoDatePickerMode.time
-
-                                      ),
-
-                                    )
-                            );
-                          } : null,
-                          child: Text("Set Time", style: TextStyle(
-                              color: Color(setColors()), fontSize: 24)),
+                          child:Text("<",style: TextStyle(color:Color(0xFF2D3748),fontSize: 40)),
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFE2E8F0),
                             onPrimary: Color(0xFFA1A5AA),
                             shadowColor: Color(0xFFC8CCD1),
-                            minimumSize: const Size.fromHeight(50), // NEW
+                          ),
+                        ),
+
+
+
+                        Text("${secondsDifference} sec",style: TextStyle(color:Color(setColors()),fontSize: 50)),
+
+                        ElevatedButton(
+                          onPressed:TimerStatus?(){
+                            if(secondsDifference<120) {
+                              setState(() {
+                                secondsDifference=secondsDifference+10;
+                                args.secondsDifference=secondsDifference;
+                                OffTime=OnTime.add(Duration(seconds:secondsDifference));
+                                args.OffTime=OffTime;
+                                OffTimer = "${OffTime.hour.toString().padLeft(2, "0")}:${OffTime.minute.toString().padLeft(2, "0")}:${OffTime.second.toString().padLeft(2, "0")}";
+                                details["OffTimer"]=OffTimer;
+                                args.details=details;
+                                put(Uri.parse(updateURL),body:jsonEncode(details),headers: { "Content-Type" : "application/json"});
+                              });
+                            }
+                          }:null,
+                          child:Text(">",style: TextStyle(color:Color(0xFF2D3748),fontSize: 40)),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFE2E8F0),
+                            onPrimary: Color(0xFFA1A5AA),
+                            shadowColor: Color(0xFFC8CCD1),
                           ),
                         )
-                    ),
 
-                  ])
+
+                      ]),
 
                 ]
             )
