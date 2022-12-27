@@ -6,6 +6,6 @@ This is the project architecture given below
 
 
 ### The Main Branch only contains Images of the project in action
-### Go to master branch for Frontend Code (Flutter)
+### Go to frontend branch for Frontend Code (Flutter)
 ### Go to backend branch for the backend Code (FastAPI)
 ### Go to hardware branch for the Arduino and the Python client code
